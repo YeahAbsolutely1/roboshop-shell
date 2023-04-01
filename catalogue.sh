@@ -1,5 +1,4 @@
 script_location=$(pwd)
-set -etc
 
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 yum install nodejs -y
@@ -17,3 +16,8 @@ cp ${script_location}/files/catalogue.service /etc/systemd/system/catalogue.serv
 systemctl daemon-reload
 systemctl enable catalogue
 systemctl start catalogue
+
+cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
+yum install mogodb-org-shell -y
+
+mongo --host MONGODB-SERVER-IPADDRESS </app/schema/catalogue.js
