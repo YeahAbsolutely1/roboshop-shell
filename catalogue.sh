@@ -1,144 +1,76 @@
 script_location=$(pwd)
 LOG=/tmp/roboshop.log
 
+status_check() {
+  if [ $? -eq 0 ]
+   then
+     echo -e "\e[32mSUCCESS\0m"
+   else
+     echo -e "\e[31mFAILURE\0m"
+     echo 'Please refer to a long file for more information. LOG - ${LOG}'
+  exit
+  fi
+}
+
 echo -e "\e[35m Configuring NodeJS repos\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>${LOG}
-
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m Installing NodeJs\e[0m"
 yum install nodejs -y  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m Adding Virtual Application User\e[0m"
 useradd roboshop  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-   echo "Refer log file for more information. LOG - ${LOG}"
-exit
-fi
+status_check
 
 mkdir -p /app  &>>${LOG}
 
 echo -e "\e[35m Downloading Catalogue Content\e[0m"
 curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 
 echo -e "\e[35m Removing Previous Content\e[0m"
 rm -rf /app/*  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 cd /app  &>>${LOG}
 
 echo -e "\e[35m Extracting NodeJS Content\e[0m"
 unzip /tmp/catalogue.zip  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 cd /app
 
 echo -e "\e[35m Installing NodeJS Dependencies\e[0m"
 npm install  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m Copying Catalogue App Content\e[0m"
 cp ${script_location}/files/catalogue.service /etc/systemd/system/catalogue.service  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m daemon-reload\e[0m"
 systemctl daemon-reload  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m Enable Catalogue\e[0m"
 systemctl enable catalogue  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m Start Catalogue\e[0m"
 systemctl start catalogue  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
-echo -e "\e[35mConfiuring Mongo Repo\e[0m"
+echo -e "\e[35m Confiuring Mongo Repo\e[0m"
 cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
+status_check
 
 echo -e "\e[35m Installing Mongo-client\e[0m"
 dnf install mongodb-org-shell -y  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
 
 echo -e "\e[35m Load Schema\e[0m"
 mongo --host mongodb-dev.perfectandupright.online </app/schema/catalogue.js  &>>${LOG}
-if [ $? -eq 0 ]
- then
-   echo SUCCESS
- else
-   echo FAILURE
-exit
-fi
+status_check
