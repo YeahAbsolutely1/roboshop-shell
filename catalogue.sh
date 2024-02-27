@@ -9,7 +9,11 @@ yum install nodejs -y  &>>${LOG}
 status_check
 
 print_head "Adding Virtual Application User"
+id roboshop &>>${LOG}
+if [ $? -ne 0 ]
+then
 useradd roboshop  &>>${LOG}
+fi
 status_check
 
 mkdir -p /app  &>>${LOG}
@@ -31,7 +35,8 @@ status_check
 cd /app
 
 print_head "Installing NodeJs Dependencies"
-npm install  &>>${LOG}
+npm install  &>>${LOG
+}}
 status_check
 
 print_head "Configuring Catalogue Service File"
