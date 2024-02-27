@@ -29,6 +29,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+   echo "Refer log file for more information. LOG - ${LOG}"
 exit
 fi
 
