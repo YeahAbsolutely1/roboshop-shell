@@ -2,7 +2,7 @@ script_location=$(pwd)
 LOG=/tmp/roboshop.log
 
 echo -e "\e[35m Configuring NodeJS repos\e[0m"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>{$LOG}
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
@@ -10,7 +10,7 @@ else
 fi
 
 echo -e "\e[35m Installing NodeJs\e[0m"
-yum install nodejs -y  &>>{$LOG}
+yum install nodejs -y  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
@@ -18,17 +18,17 @@ else
 fi
 
 echo -e "\e[35m Adding Virtual Application User\e[0m"
-useradd roboshop  &>>{$LOG}
+useradd roboshop  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
   echo FAILURE
 fi
 
-mkdir -p /app  &>>{$LOG}
+mkdir -p /app  &>>${LOG}
 
 echo -e "\e[35m Downloading Catalogue Content\e[0m"
-curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip  &>>{$LOG}
+curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
@@ -36,17 +36,17 @@ else
 fi
 
 echo -e "\e[35m Removing Previous Content\e[0m"
-rm -rf /app/*  &>>{$LOG}
+rm -rf /app/*  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
   echo FAILURE
 fi
 
-cd /app  &>>{$LOG}
+cd /app  &>>${LOG}
 
 echo -e "\e[35m Extracting NodeJS Content\e[0m"
-unzip /tmp/catalogue.zip  &>>{$LOG}
+unzip /tmp/catalogue.zip  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
@@ -56,7 +56,7 @@ fi
 cd /app
 
 echo -e "\e[35m Installing NodeJS Dependencies\e[0m"
-npm install  &>>{$LOG}
+npm install  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
@@ -64,7 +64,7 @@ else
 fi
 
 echo -e "\e[35m Copying Catalogue App Content\e[0m"
-cp ${script_location}/files/catalogue.service /etc/systemd/system/catalogue.service  &>>{$LOG}
+cp ${script_location}/files/catalogue.service /etc/systemd/system/catalogue.service  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
@@ -72,7 +72,7 @@ else
 fi
 
 echo -e "\e[35m daemon-reload\e[0m"
-systemctl daemon-reload  &>>{$LOG}
+systemctl daemon-reload  &>>${LOG}
 if [ $? -eq 0 ] then;
   echo SUCCSESS
 else
