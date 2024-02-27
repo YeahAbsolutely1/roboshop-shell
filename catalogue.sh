@@ -35,8 +35,7 @@ status_check
 cd /app
 
 print_head "Installing NodeJs Dependencies"
-npm install  &>>${LOG
-}}
+npm install  &>>${LOG}
 status_check
 
 print_head "Configuring Catalogue Service File"
