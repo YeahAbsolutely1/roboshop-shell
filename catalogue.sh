@@ -1,64 +1,63 @@
 source common.sh
 
-echo -e "\e[35m Configuring NodeJS repos\e[0m"
+print_head "Configuring NodeJs Repos"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>${LOG}
 status_check
 
-echo -e "\e[35m Installing NodeJs\e[0m"
+print_head "Install NodeJs"
 yum install nodejs -y  &>>${LOG}
 status_check
 
-echo -e "\e[35m Adding Virtual Application User\e[0m"
+print_head "Adding Virtual Application User"
 useradd roboshop  &>>${LOG}
 status_check
 
 mkdir -p /app  &>>${LOG}
 
-echo -e "\e[35m Downloading Catalogue Content\e[0m"
+print_head "Downloading Catalogue Content"
 curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip  &>>${LOG}
 status_check
 
-
-echo -e "\e[35m Removing Previous Content\e[0m"
+print_head "Cleanup Old Content"
 rm -rf /app/*  &>>${LOG}
 status_check
 
 cd /app  &>>${LOG}
 
-echo -e "\e[35m Extracting NodeJS Content\e[0m"
+print_head "Extracting App Content"
 unzip /tmp/catalogue.zip  &>>${LOG}
 status_check
 
 cd /app
 
-echo -e "\e[35m Installing NodeJS Dependencies\e[0m"
+print_head "Installing NodeJs Dependencies"
 npm install  &>>${LOG}
 status_check
 
-echo -e "\e[35m Copying Catalogue App Content\e[0m"
+print_head "Configuring Catalogue Service File"
 cp ${script_location}/files/catalogue.service /etc/systemd/system/catalogue.service  &>>${LOG}
 status_check
 
-echo -e "\e[35m daemon-reload\e[0m"
+print_head "Daemon Reload"
 systemctl daemon-reload  &>>${LOG}
 status_check
 
-echo -e "\e[35m Enable Catalogue\e[0m"
+print_head "Enable Catalogue"
 systemctl enable catalogue  &>>${LOG}
 status_check
 
-echo -e "\e[35m Start Catalogue\e[0m"
+print_head "Start Catalogue"
 systemctl start catalogue  &>>${LOG}
 status_check
 
-echo -e "\e[35m Confiuring Mongo Repo\e[0m"
+print_head "Configuring Mongo Repos"
 cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
 status_check
 
-echo -e "\e[35m Installing Mongo-client\e[0m"
+print_head "Installing Mongo Client"
 dnf install mongodb-org-shell -y  &>>${LOG}
 status_check
 
-echo -e "\e[35m Load Schema\e[0m"
+print_head "Load Schema"
 mongo --host mongodb-dev.perfectandupright.online </app/schema/catalogue.js  &>>${LOG}
 status_check
