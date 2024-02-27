@@ -9,6 +9,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m Installing NodeJs\e[0m"
@@ -18,6 +19,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m Adding Virtual Application User\e[0m"
@@ -27,6 +29,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 mkdir -p /app  &>>${LOG}
@@ -38,6 +41,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 
@@ -48,6 +52,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 cd /app  &>>${LOG}
@@ -59,6 +64,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 cd /app
@@ -70,6 +76,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m Copying Catalogue App Content\e[0m"
@@ -79,6 +86,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m daemon-reload\e[0m"
@@ -88,6 +96,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m Enable Catalogue\e[0m"
@@ -97,6 +106,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m Start Catalogue\e[0m"
@@ -106,6 +116,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35mConfiuring Mongo Repo\e[0m"
@@ -118,6 +129,7 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
 
 echo -e "\e[35m Load Schema\e[0m"
@@ -127,4 +139,5 @@ if [ $? -eq 0 ]
    echo SUCCESS
  else
    echo FAILURE
+exit
 fi
