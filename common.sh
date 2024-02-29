@@ -84,5 +84,5 @@ then
   print_head "Load Schema"
   mongo --host mongodb-dev.perfectandupright.online </app/schema/${component}.js  &>>${LOG}
   status_check
-
+fi
 }
