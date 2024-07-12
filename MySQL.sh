@@ -6,6 +6,7 @@ if [ -z "${root_mysql_password}" ];
    exit
 fi
 
+
 print_head "Disable MySQL default module"
 dnf module disable mysql -y  &>>${LOG}
 status_check
