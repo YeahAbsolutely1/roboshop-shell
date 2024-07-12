@@ -71,7 +71,7 @@ NODEJS() {
   systemctl start ${component}  &>>${LOG}
   status_check
 
-if [ {schema_load} == "true" ]
+if [ ${schema_load} == "true" ]
 then
   print_head "Configuring Mongo Repos"
   cp ${script_location}/files/mongodb.repo /etc/yum.repos.d/mongodb.repo
